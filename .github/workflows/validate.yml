@@ -1,0 +1,73 @@
+name: Validate skills
+on:
+  pull_request:
+    paths:
+      - 'skills/**'
+      - '.github/workflows/validate.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install validators
+        run: npm install --no-save ajv ajv-formats gray-matter
+      - name: Validate skill frontmatter
+        run: |
+          cat > /tmp/validate.mjs <<'EOF'
+          import { readdir, readFile } from 'node:fs/promises';
+          import { resolve, basename } from 'node:path';
+          import matter from 'gray-matter';
+          import Ajv from 'ajv';
+          import addFormats from 'ajv-formats';
+
+          const schema = JSON.parse(await readFile('skills/_schema.json', 'utf-8'));
+          const ajv = new Ajv({ allErrors: true });
+          addFormats(ajv);
+          const validate = ajv.compile(schema);
+
+          const files = (await readdir('skills'))
+            .filter((f) => f.endsWith('.md') && !f.startsWith('_'));
+
+          let failed = 0;
+          for (const file of files) {
+            const path = resolve('skills', file);
+            const raw = await readFile(path, 'utf-8');
+            const { data } = matter(raw);
+            const expectedId = basename(file, '.md');
+
+            if (data.id !== expectedId) {
+              console.error(`✗ ${file}: id "${data.id}" must match filename slug "${expectedId}"`);
+              failed++;
+              continue;
+            }
+            if (data.plugin_repo_path !== `skills/${expectedId}.md`) {
+              console.error(`✗ ${file}: plugin_repo_path should be "skills/${expectedId}.md"`);
+              failed++;
+              continue;
+            }
+            if (!validate(data)) {
+              console.error(`✗ ${file}:`);
+              for (const e of validate.errors) {
+                console.error(`    ${e.instancePath || '/'} ${e.message}`);
+              }
+              failed++;
+              continue;
+            }
+            console.log(`✓ ${file}`);
+          }
+
+          if (failed > 0) {
+            console.error(`\n${failed} skill(s) failed validation`);
+            process.exit(1);
+          }
+          console.log(`\nAll ${files.length} skill(s) validated`);
+          EOF
+          node /tmp/validate.mjs

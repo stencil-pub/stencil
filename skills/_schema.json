@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Stencil skill frontmatter",
+  "description": "Schema for the YAML frontmatter on every file in skills/. Mirrored by the website's zod schema at https://github.com/stencil-pub/stencil.pub/blob/main/src/content/config.ts",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "kind",
+    "physics_domain",
+    "status",
+    "summary",
+    "plugin_repo_path",
+    "created"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$",
+      "description": "Slug. MUST equal the filename without .md."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 2
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["skill", "atom", "report"]
+    },
+    "physics_domain": {
+      "type": "string",
+      "description": "kebab-case, e.g. 'fluid-dynamics', 'electromagnetism', 'thermodynamics', 'general'."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "community-validated", "iron-law"]
+    },
+    "contributors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "GitHub usernames (no @)."
+    },
+    "source_article": {
+      "type": "string",
+      "description": "Slug of the article that introduces this skill on stencil.pub."
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 10,
+      "description": "One or two sentences."
+    },
+    "plugin_repo_path": {
+      "type": "string",
+      "pattern": "^skills/.+\\.md$"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "created": {
+      "type": "string",
+      "format": "date"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}

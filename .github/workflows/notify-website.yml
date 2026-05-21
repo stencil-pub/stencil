@@ -1,0 +1,17 @@
+name: Notify website to rebuild
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch to stencil.pub
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.WEBSITE_REBUILD_PAT }}
+          repository: stencil-pub/stencil.pub
+          event-type: skills-updated
