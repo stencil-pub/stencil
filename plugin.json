@@ -9,5 +9,13 @@
   "authors": [
     { "name": "The Stencil contributors", "url": "https://stencil.pub/" }
   ],
+  "maintainers": [
+    {
+      "name": "Pouria Mistani",
+      "email": "p.a.mistani@gmail.com",
+      "url": "https://pouriamistani.com",
+      "github": "pourion"
+    }
+  ],
   "skills": "skills/"
 }
