@@ -2,7 +2,7 @@
   "name": "stencil",
   "displayName": "Stencil — Simulation Organism",
   "version": "0.1.0",
-  "description": "Community-owned Claude plugin for physics simulation. Skills, atoms, and reports contributed by Stencil essayists, accumulated into one Simulation Organism.",
+  "description": "Community-owned, open-source physics-simulation plugin. Skills, atoms, and reports contributed by Stencil essayists, accumulated into one Simulation Organism. Claude Code today; Codex and other coding agents to follow.",
   "homepage": "https://stencil.pub",
   "repository": "https://github.com/stencil-pub/stencil",
   "license": "MIT",

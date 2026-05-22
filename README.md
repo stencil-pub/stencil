@@ -1,14 +1,19 @@
 # Stencil — Simulation Organism Plugin
 
-The community-owned Claude plugin behind [stencil.pub](https://stencil.pub).
+The community-owned, open-source plugin behind [stencil.pub](https://stencil.pub).
 Skills, atoms, and reports contributed by Stencil essayists, accumulated into one
-plugin focused on simulating the physical world.
+plugin focused on simulating the physical world — **Claude Code today; Codex and
+other coding agents to follow** as those platforms mature.
 
-## Install
+## Install (Claude Code)
 
 ```bash
 claude plugin install stencil-pub/stencil
 ```
+
+Codex / other agents: planned. Skills are written in plain markdown with
+agent-neutral frontmatter, so porting is mostly a manifest exercise. Track or
+contribute via [GitHub Discussions](https://github.com/stencil-pub/stencil/discussions).
 
 ## What's in here
 
